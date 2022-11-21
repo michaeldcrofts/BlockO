@@ -1,0 +1,239 @@
+<!--
+# File: index.html
+# HTML 5 standard compliant
+-->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>BlockO</title>
+<!-- load dependencies in order, header kept as light as possible so that loader animation displays quickly -->
+<script src="lib/jquery-3.1.1.min.js"></script> <!--jQuery should be loaded first, so much depends upon it! -->
+<link href="theme.css" rel="stylesheet" type="text/css" />  <!-- CSS for page styling -->
+<link href="icon-menu.css" rel="stylesheet" type="text/css" />
+<link href="lib/jquery-ui-1.12.1/jquery-ui.min.css" rel="stylesheet" type="text/css" /> <!-- jQueryUI CSS, it's js file consciously loaded at bottom of document -->
+<link href="lib/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" /> <!-- Font Awesome pack used for icons- -->
+</head>
+<body>
+<div class="loader"><div class="loading-animation"></div><p>Loading libraries</p></div>
+<div id = "topBar" class="theme-chrome hide-on-start">
+    <div id="btnSave" class="btn tooltip stopped"><i class="fa fa-download" aria-hidden="true"></i><span class="tooltiptext">CTRL+S</span></div>
+    <div id="btnOpen" class="btn tooltip stopped"><i class="fa fa-folder-open" aria-hidden="true"></i><span class="tooltiptext">CTRL+O</span></div>
+    <div id="btnPrint" class="btn tooltip stopped"><i class="fa fa-print" aria-hidden="true"></i><span class="tooltiptext">CTRL+P</span></div>
+    <div id="btnAbout" class="btn tooltip stopped"><i class="fa fa-question-circle" aria-hidden="true"></i><span class="tooltiptext">About</span></div>
+    <div id="btnExecute" class="btn tooltip stopped"><i class="fa fa-play-circle-o" aria-hidden="true"></i><span class="tooltiptext">F9</span></div>
+    <div id="sliderContainer">
+    	Execution Delay
+    	<div id="executeSpeedSlider"></div>
+    	<div id="executeSpeedDisplay"></div>
+    </div>
+    <div id="btnStop" class="btn stopped"><i class="fa fa-stop-circle-o" aria-hidden="true"></i></div>
+    <div id="btnPythonToggle" class="btn tooltip stopped"><i class="fa fa-code" aria-hidden="true"></i><span class="tooltiptext">Hide/show Python</span></div>
+    <div id="btnBlocklyToggle" class="btn tooltip stopped"><i class="fa fa-puzzle-piece" aria-hidden="true"></i><span class="tooltiptext">Hide/show Blockly</span></div>
+    <div id="OakhamLogo"><img src="images/OakhamLogo SHORT Pantone for commercial print.png" width="67px" height="51"></div>
+    <div id="BlockOLogo"><img src="images/blocko_red_without_border_trans.PNG" width="100px" height="43"></div>
+    <div id="version"></div>
+</div>
+<!-- Blockly Editor Area -->
+<div id = "blocklyEditor" class = "blocklyEditor hide-on-start section-to-print"></div>
+<!-- Python Editor Area style="background-color: #fff; width:50%; height: calc((70% - 62px)); left:50%; top: 62px; position: absolute;"-->
+<div id = "pythonEditor"  class = "hide-on-start section-to-print"></div>
+<div id = "consoleWindow" class ="console hide-on-start">Console: <br>></div>
+<!-- Open File input-->
+<form id="inputForm" enctype="multipart/form-data" method="post" style="display: none">
+    <input id="openFile" type="file" accept=".py, .xml" style="display: none" />
+    <select name="single">
+    <option>Single</option>
+    <option>Single2</option>
+  </select>
+</form>
+<!-- Blockly Toolbox. Put it in a separate file? -->
+<xml id="toolbox" style="display: none">
+  <category name="Logic" colour="210">
+  	  <block type="logic_input"></block>
+      <block type="logic_boolean"></block>
+      <block type="controls_if"></block>
+      <block type="controls_ifelse"></block>
+      <block type="logic_compare"></block>
+      <block type="logic_operation"></block>
+  </category>
+  <category name="Loops" colour="120">
+      <block type="controls_whileUntil"></block>
+      <block type="controls_forEach"></block>
+  </category>
+  <category name="Math" colour="230">
+      <block type="math_number"></block>
+      <block type="math_arithmetic"></block>
+      <block type="math_single"></block>
+      <block type="math_trig"></block>
+      <block type="math_constant"></block>
+      <block type="math_round"></block>
+      <block type="math_modulo"></block>
+      <block type="math_random_int"></block>
+      <block type="math_integer"></block>
+      <block type="math_float"></block>
+  </category>
+  <category name="Text" colour="160">
+      <block type="text"></block>
+      <block type="text_print"></block>
+      <block type="text_join"></block>
+      <block type="text_length"></block>
+      <block type="text_str"></block>
+      <block type="text_ord">
+        <value name="TXT">
+          <shadow type="text">
+            <field name="TEXT">A</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="text_chr">
+        <value name="NUM">
+          <shadow type="math_number">
+            <field name="NUM">65</field>
+          </shadow>
+        </value>
+      </block>
+  </category>
+  <sep gap="42"></sep>
+  <category name="Lists" colour="260">
+    <block type="lists_create_empty"></block>
+    <block type="lists_length"></block>
+    <block type="lists_getIndex"></block>
+    <block type="lists_setIndex"></block>
+    <block type="lists_split"></block>
+  </category>
+  <category name="Variables" colour="330" custom="VARIABLE"></category>
+  <sep gap="42"></sep>
+  <category name="Functions" colour="290" custom="PROCEDURE"></category>
+  <category name="Time" colour="120">
+    <block type="time_sleep_input">
+      <value name="NUM">
+        <shadow type="math_number">
+          <field name="NUM">0.5</field>
+        </shadow>
+      </value>
+    </block>
+  </category>
+  <sep gap="42"></sep>
+  <category name="Files" colour="45">
+    <block type="files_open">
+      <value name="FNAME">
+        <shadow type="text">
+          <field name="TEXT">myFile.txt</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="files_close"></block>
+    <block type="files_write">
+      <value name="WRITE_DATA">
+        <shadow type="text">
+          <field name="TEXT">Hello, World!</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="files_read"></block>
+    <block type="files_readlines"></block>
+  </category>
+  <sep gap="42"></sep>
+  <category name="GPIO" colour="240">
+    <block type="gpio_digital_write"></block>
+    <block type="gpio_digital_read"></block>
+  </category>
+  <category name="Grove" colour="358">
+    <block type="grove_analogue_read"></block>
+    <block type="grove_digital_read"></block>
+    <block type="grove_analogue_write"></block>
+    <block type="grove_digital_write"></block>
+    <block type="grove_light_sensor"></block>
+    <block type="grove_rgb_led_on">
+      <value name="RED">
+        <shadow type="math_number">
+          <field name="NUM">255</field>
+        </shadow>
+      </value>
+      <value name="GREEN">
+        <shadow type="math_number">
+          <field name="NUM">255</field>
+        </shadow>
+      </value>
+      <value name="BLUE">
+        <shadow type="math_number">
+          <field name="NUM">255</field>
+        </shadow>
+      </value>
+      <value name="PIN">
+        <shadow type="math_number">
+          <field name="NUM">5</field>
+        </shadow>
+      </value>
+    </bock>
+    <block type="grove_play_note"></block>
+    <block type="grove_ultrasonic_read"></block>
+  </category>
+  <category name="FLP" colour="290">
+    <block type="flp_clear"></block>
+    <block type="flp_show"></block>
+    <block type="flp_set_digit">
+      <value name="DIGIT">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="TXT">
+        <shadow type="text">
+          <field name="TEXT">A</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="flp_print_str">
+      <value name="TXT">
+        <shadow type="text">
+          <field name="TEXT">ABCD</field>
+        </shadow>
+      </value>
+    </block>
+  </category>
+  <sep gap="42"></sep>
+</xml>
+<!-- About Dialog -->
+<div id = "aboutDialog" class = "hidden">
+	<title>About BlockO</title>
+	<p>BlockO - A Blockly / Python development environment designed for education.</p>
+	<p>
+		Created by: Michael Crofts <br />
+		Provided under Creative Commons License: <i class="fa fa-creative-commons" aria-hidden="true"></i> BY-NC-ND <br />
+		Without warranty
+	</p>
+</div>
+<!-- Load last of the dependencies -->
+<script src="lib/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+<script src="lib/google-blockly-e0be7e4/blockly_compressed.js"></script>
+<script src="lib/google-blockly-e0be7e4/python_compressed.js"></script>
+<script src="lib/google-blockly-e0be7e4/blocks_compressed.js"></script>
+<script src="lib/google-blockly-e0be7e4/msg/js/en-gb.js"></script>
+<!-- Custom block libraries -->
+<script src="lib/google-blockly-e0be7e4/blocks/grove.js"></script>
+<script src="lib/google-blockly-e0be7e4/generators/python/grove.js"></script>
+<script src="lib/google-blockly-e0be7e4/blocks/time.js"></script>
+<script src="lib/google-blockly-e0be7e4/generators/python/time.js"></script>
+<script src="lib/google-blockly-e0be7e4/blocks/gpio.js"></script>
+<script src="lib/google-blockly-e0be7e4/generators/python/gpio.js"></script>
+<script src="lib/google-blockly-e0be7e4/blocks/logic.js"></script>
+<script src="lib/google-blockly-e0be7e4/generators/python/logic.js"></script>
+<script src="lib/google-blockly-e0be7e4/blocks/math.js"></script>
+<script src="lib/google-blockly-e0be7e4/generators/python/math.js"></script>
+<script src="lib/google-blockly-e0be7e4/blocks/text.js"></script>
+<script src="lib/google-blockly-e0be7e4/generators/python/text.js"></script>
+<script src="lib/google-blockly-e0be7e4/blocks/fourletterphat.js"></script>
+<script src="lib/google-blockly-e0be7e4/generators/python/fourletterphat.js"></script>
+<script src="lib/google-blockly-e0be7e4/blocks/files.js"></script>
+<script src="lib/google-blockly-e0be7e4/generators/python/files.js"></script>
+<!-- End of custom block libraries -->
+<script src="lib/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+<script src="lib/filesaver/FileSaver.js"></script>
+<script src="lib/jquery-xmlrpc-master/jquery.xmlrpc.js"></script>
+<script src="interface.js"></script>
+<script src="code_injection v3.2.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,34 @@
+/*
+# File: icon-menu.css
+# Adapted from W3schools.com
+*/
+.icon-menu-container {
+    display: inline-block;
+    cursor: pointer;
+	position: absolute;
+	/*
+	left: 10px;
+	top: 8px; */
+}
+.icon-menu-bar1, .icon-menu-bar2, .icon-menu-bar3 {
+    width: 18px;
+    height: 1px;
+    background-color: #333;
+    margin: 6px 0;
+    transition: 0.4s;
+}
+/* Rotate first bar */
+.icon-menu-change .icon-menu-bar1 {
+    -webkit-transform: rotate(-45deg) translate(-6px,4px) ;
+    transform: rotate(-45deg) translate(-6px,4px) ;
+}
+/* Fade out the second bar */
+.icon-menu-change .icon-menu-bar2 {
+    opacity: 0;
+}
+/* Rotate last bar */
+.icon-menu-change .icon-menu-bar3 {
+    -webkit-transform: rotate(45deg) translate(-5px, -5px) ;
+    transform: rotate(45deg) translate(-5px, -5px) ;
+}
+

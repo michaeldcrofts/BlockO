@@ -1,0 +1,331 @@
+/*
+# File: testing.css
+# CSS 3 standard compliant
+*/
+body {
+    background-color: #333;
+    color: #fff;
+    font-family: arial;
+    font-size: 20px;
+}
+/* X on tabs */
+.closeTab:hover {
+    cursor:pointer;
+    color:red;
+}
+/* Console Window */
+.console {
+    width: 50%;
+    height: 30%;
+    top: 70%;
+    left: 50%;  /*This will need to be set in JS code*/
+    position: absolute;
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+    z-index: 50;
+    background-color: #000;
+    color: #66a868;
+    font-size: 0.8em;
+    overflow:scroll;
+}
+/* Blockly Window */
+.blocklyEditor {
+    width: 50%;
+    height: calc((100% - 62px));
+    top:62px;
+    left: 0px;  /*This will need to be set in JS code*/
+    position: absolute;
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+    z-index: 50;
+    background-color: #fff;
+    color: #000;
+    overflow:hidden;
+    page-break-after: always;
+}
+/* Editor windows */
+/* The default is top left, other classes will override this. */
+.editor {
+    width: 50%;
+    height: calc((100% - 42px));
+    top:42px;
+    left: 0px;  /*This will need to be set in JS code*/
+    position: absolute;
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+    z-index: 50;
+    background-color: #fff;
+    color: #000;
+    overflow:hidden;
+    page-break-after: always;
+}
+.editor-right {
+    left: 50%;
+}
+.editor-bottom{
+    top: calc(50% + 21px);
+}
+/* Applied to items that should be hidden at the start, while loading
+   removed in JS */
+.hide-on-start {
+    visibility:hidden;
+}
+/* Mostly applied to dialogs */
+.hidden {
+    display: none; /* display property used rather than visibility as it means no space is taken */
+}
+/* CSS Loader Animation */
+.loader {
+    /* Centre Loader */
+    position: absolute;
+    left: 50%;
+    top: 50%;
+}
+.loader .loading-animation {
+    width: 100px;
+    height: 100px;
+    margin: -50px 0 0 -50px; /*adjust offset for centre */
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    animation: spin 2s linear infinite;
+}
+.loader > p {
+    color:#fff;
+    font-size: 14px;
+    margin: 10px 0 0 -50px; /*adjust offset for centre */
+    text-align: center;
+}
+/* spin property, referenced by .loader class */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+.tab {
+    height:98%;
+}
+.tab-inner {
+    height:82%;
+}
+/* About Dialog */
+#aboutDialog {
+    font-size: 14px;
+}
+/* Bar at the top of the screen, containing menu buttons */
+#topBar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height:60px;
+    width: 100%;
+    border-bottom: 2px solid #8F938F;
+    border-top: 0px;
+    z-index:100;
+}
+/* Save button on the top bar */
+#topBar #btnSave {
+    left: 12px;
+}
+/* Open button on the top bar */
+#topBar #btnOpen {
+    left: 62px;
+}
+/* Print button on the top bar */
+#topBar #btnPrint {
+    left: 112px;
+}
+/* About button on the top bar */
+#topBar #btnAbout {
+    left: 162px;
+}
+/* Execute button on the top bar */
+#topBar #btnExecute {
+    left: calc((100% - 102px));
+}
+/* Execution Speed Control on the top bar */
+#topBar #sliderContainer {
+    width: 100px;
+    height: 50px;
+    top: 10px;
+    left: calc((100% - 212px));
+    position: absolute;
+    font-size: 12px;
+    text-align: center;
+    color: #A71930;
+    overflow: hidden;
+}
+#topBar #sliderContainer #executeSpeedSlider {
+    width: 68px;
+    height:10px;
+    top: 10px;
+    position: relative;
+    float: left;
+    background-color: #A71930;
+}
+#topBar #sliderContainer #executeSpeedDisplay {
+    width: 30px;
+    height: 15px;
+    top: 8px;
+    position: relative;
+    float: right;
+    text-align: center;
+}
+/* Blockly Stop button on the top bar */
+#topBar #btnStop {
+    left: calc((100% - 52px));
+}
+/* Blockly Toggle button on the top bar */
+#topBar #btnBlocklyToggle {
+    left: 25%;
+}
+/* Python Toggle button on the top bar */
+#topBar #btnPythonToggle {
+    left: 75%;
+}
+/* Oakham Logo on the top bar */
+#topBar #OakhamLogo {
+    top:4px;
+    width: 67px;
+    left: calc((50% - 84px));
+    position: absolute;
+    overflow: hidden;
+}
+/* BlockO logo on the top bar */
+#topBar #BlockOLogo {
+    top:8px;
+    width: 101px;
+    left: calc((50% - 17px));
+    position: absolute;
+    overflow: hidden;
+}
+/* Version number on the top bar */
+#topBar #version {
+    top: 32px;
+    width: 100px;
+    left: calc((50% + 83px));
+    position: absolute;
+    overflow: hidden;
+    font-family: arial;
+    font-size: 10px;
+    color: #A71930;
+}
+/* Button class, applies to most buttons */
+.btn {
+    width: 40px;
+    height: 50px;
+    top: 10px;
+    position: absolute;
+    font-size:42px;
+    cursor: pointer;
+}
+/* hover class for buttons based on font awesome icons */
+.btn:hover i {
+    color:#999;
+}
+/* class to change the colour of running buttons */
+.running {
+    color:#0F0;
+}
+/* class to change the colour of stopped buttons */
+.stopped {
+    color: #A71930;
+}
+#tabbed {
+    top: 42px;
+    left: 0px;
+    position: absolute;
+    color: #333;
+    background-color: #EBEBEB;
+}
+/* Theme settings for jQuery class change */
+.theme-chrome{
+    background-color: #EBEBEB;
+}
+#btnOpenExisting-change{
+    opacity:0;
+}
+/* Style the text-based (hyperlink like) buttons, such as those on the welcomeDialog */
+.btnLink {
+    color: #333;
+    cursor: pointer;
+}
+.btnLink:hover {
+    color: #999;
+}
+#pythonEditor {
+    background-color: #fff; 
+    width:50%; 
+    height: calc((70% - 62px)); 
+    left:50%; 
+    top: 62px; 
+    position: absolute;
+}
+/* Tooltip container */
+.tooltip {
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+/* Tooltip text */
+.tooltip .tooltiptext {
+    font-size: 12px;
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+    top: 100%;
+    left: 50%; 
+    margin-left: -60px; /* Use half of the width (120/2 = 60), to center the tooltip */
+}
+.tooltip .tooltiptext::after {
+    content: " ";
+    position: absolute;
+    bottom: 100%;  /* At the top of the tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent black transparent;
+}
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+/* Testing of highlight line in ACE editor */
+.warning
+{
+    background: rgba(255, 255, 0, 0.5);
+    position: absolute;
+    width: 100% !important;
+    left: 0 !important;
+}
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    .section-to-print, .section-to-print * {
+        visibility: visible;
+    }
+    .section-to-print {
+        page-break-after: always;
+    }
+    #pythonEditor {
+        position: absolute;
+        width: 100%;
+        height: 500px;
+        top: 0px;
+        left: 0px;
+    }
+    #blocklyEditor {
+        position: absolute;
+        width: 100%;
+        height: 600px;
+        top: 510px;
+        left: 0px;
+    }
+}
+
